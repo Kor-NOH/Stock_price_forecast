@@ -18,3 +18,13 @@ def create_dataset(data, time_step = 1):
     return np.array(X), np.array(y)
 
 X, y = create_dataset(data.values, time_step=60)
+
+# 전체 데이터셋을 다시 분할 (학습 8: 테스트 2)
+from sklearn.model_selection import train_test_split
+import xgboost as xgb
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2)
+
+# XGBoost에 적용하기 위해 데이터를 DMatrix 형식으로 변환
+dtrain = xgb.DMatrix(X_train, label=y_train)
+dtest = xgb.DMatrix(X_test, label=y_test)
