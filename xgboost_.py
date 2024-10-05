@@ -28,3 +28,15 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2)
 # XGBoost에 적용하기 위해 데이터를 DMatrix 형식으로 변환
 dtrain = xgb.DMatrix(X_train, label=y_train)
 dtest = xgb.DMatrix(X_test, label=y_test)
+
+# Part 2 - 모델 생성
+params = {
+    'objective' : 'reg:squarederror',
+    'colsample_bytree': 0.3,
+    'learning_rate': 0.1,
+    'max_depth': 5,
+    'alpha' : 10
+}
+
+# 모델 학습
+model = xgb.train(params, dtrain, num_boost_round=100)
