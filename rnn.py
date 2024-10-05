@@ -23,3 +23,42 @@ X_train, y_train = np.array(X_train), np.array(y_train)
 
 # LSTM 계층에 데이터를 입력하기위해 3차원 배열로 변환 (샘플 수, 타임스텝 수, 입력 차원 수)
 X_train = np.reshape(X_train, (X_train.shape[0], X_train.shape[1], 1))
+
+#----------------------------------------------------------------------
+# RNN 모델 생성 및 학습
+# Sequential - 레이어를 쌓아가는 신경망 구조
+# LSTM - 장기 시계열 데이터 처리를 위한 신경망 구조
+# Dropout - 과적합 방지를 위한 레이어
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.layers import LSTM
+from keras.layers import Dropout
+
+# 모델 초기화
+regressor = Sequential()
+
+# LSTM 첫 번째 레이어
+# 50개의 유닛을 가진 LTMS 레이어 추가 후, return_sequences=True를 통해 다음에도 추가할 수 있도록 함
+# input_shape는 입력 데이터의 형상 지정
+regressor.add(LSTM(units = 50, return_sequences = True, input_shape = (X_train.shape[1], 1)))
+# Dropout(20%)을 추가해 과적합 방지
+regressor.add(Dropout(0.2))
+
+# LSTM 2, 3, 4 번째 레이어
+regressor.add(LSTM(units = 50, return_sequences = True))
+regressor.add(Dropout(0.2))
+
+regressor.add(LSTM(units = 50, return_sequences = True))
+regressor.add(Dropout(0.2))
+
+regressor.add(LSTM(units = 50))
+regressor.add(Dropout(0.2))
+
+# 출력 레이어 추가
+regressor.add(Dense(units = 1))
+
+# RNN 모델 컴파일
+regressor.compile(optimizer = 'adam', loss = 'mean_squared_error')
+
+# 모델 학습
+regressor.fit(X_train, y_train, epochs = 10, batch_size = 32)
