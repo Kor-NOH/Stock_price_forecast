@@ -66,7 +66,7 @@ regressor.add(Dense(units = 1))
 regressor.compile(optimizer = 'adam', loss = 'mean_squared_error')
 
 # 모델 학습
-regressor.fit(X_train, y_train, epochs = 4, batch_size = 32)
+regressor.fit(X_train, y_train, epochs = 100, batch_size = 32)
 
 #----------------------------------------------------------------------
 # Part 3 - 결과 예측
