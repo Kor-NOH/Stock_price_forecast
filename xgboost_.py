@@ -40,3 +40,13 @@ params = {
 
 # 모델 학습
 model = xgb.train(params, dtrain, num_boost_round=100)
+
+# Part 3 - 예측
+predictions = model.predict(dtest)
+
+from sklearn.metrics import mean_squared_error
+
+# 평균제곱오차(MSE)를 사용하여 모델 평가
+mse = mean_squared_error(y_test, predictions)
+print(f'Mean Squared Error: {mse}')
+
