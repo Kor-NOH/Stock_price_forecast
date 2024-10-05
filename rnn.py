@@ -1,4 +1,9 @@
 # Part 1 - 데이터 전처리
+
+# Matplotlib를 사용하기 위해 작성
+import matplotlib
+matplotlib.use('TkAgg')
+
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -61,7 +66,7 @@ regressor.add(Dense(units = 1))
 regressor.compile(optimizer = 'adam', loss = 'mean_squared_error')
 
 # 모델 학습
-regressor.fit(X_train, y_train, epochs = 10, batch_size = 32)
+regressor.fit(X_train, y_train, epochs = 4, batch_size = 32)
 
 #----------------------------------------------------------------------
 # Part 3 - 결과 예측
@@ -91,3 +96,12 @@ X_test = np.reshape(X_test, (X_test.shape[0], X_test.shape[1], 1))
 predicted_stock_price = regressor.predict(X_test)
 # 미니맥스로 변경한 값을 실제 주가와 비교하기 위해 원래 단위로 변완
 predicted_stock_price = sc.inverse_transform(predicted_stock_price)
+
+# Part 4 - 결과 시각화
+plt.plot(real_stock_price, color = 'red', label = 'Real Google Stock Price')
+plt.plot(predicted_stock_price, color = 'blue', label = 'Predicted Google Stock Price')
+plt.title('Google Stock Price Prediction')
+plt.xlabel('Time')
+plt.ylabel('Google Stock Price')
+plt.legend()
+plt.show()
